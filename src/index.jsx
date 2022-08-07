@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 ReactDOM.render(
     <React.StrictMode>
         <Router>
-            <Route path="/">
+            <Route exact path="/">
                 <Home />
             </Route>
             <Route path="/survey">
