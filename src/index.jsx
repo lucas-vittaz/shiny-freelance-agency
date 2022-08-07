@@ -5,8 +5,12 @@ import { BrowserRouter as Router } from 'react-router-dom'
 ReactDOM.render(
     <React.StrictMode>
         <Router>
-            <Home />
+            <Route path="/">
+                <Home />
+            </Route>
+            <Route path="/survey">
+                <Survey />
+            </Route>
         </Router>
-    </React.StrictMode>,
-document.getElementById('root')
+    <React.StrictMode>
 )
