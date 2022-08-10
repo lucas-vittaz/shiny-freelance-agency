@@ -38,23 +38,6 @@ function Survey() {
   const [surveyData, setSurveyData] = useState({})
   const [isDataLoading, setDataLoading] = useState(false)
 
-  // Cette syntaxe permet aussi bien de faire des calls API.
-  // Mais pour utiliser await dans une fonction, il faut que celle-ci soit async (pour asynchrone).
-  // Comme la fonction passée à useEffect ne peut pas être asynchrone,
-  // il faut utiliser une fonction qui est appelée dans useEffect et déclarée en dehors, comme ici 👇.
-  // Essayez de commenter le code créé dans le chapitre et de décommenter fetchData pour voir.
-
-  // async function fetchData() {
-  //   try {
-  //     const response = await fetch(`http://localhost:8000/survey`)
-  //     const { surveyData } = await response.json()
-  //     setSurveyData(surveyData)
-  //   } catch (error) {
-  // console.log('===== error =====', error)
-  // setError(true)
-  //   }
-  // }
-
   useEffect(() => {
     // fetchData()
     setDataLoading(true)
@@ -67,22 +50,22 @@ function Survey() {
   }, [])
 
   return (
-    <SurveyContainer>
-      <QuestionTitle>Question {questionNumber}</QuestionTitle>
-      {isDataLoading ? (
-        <Loader />
-      ) : (
-        <QuestionContent>{surveyData[questionNumber]}</QuestionContent>
-      )}
-      <LinkWrapper>
-        <Link to={`/survey/${prevQuestionNumber}`}>Précédent</Link>
-        {surveyData[questionNumberInt + 1] ? (
-          <Link to={`/survey/${nextQuestionNumber}`}>Suivant</Link>
-        ) : (
-          <Link to="/results">Résultats</Link>
-        )}
-      </LinkWrapper>
-    </SurveyContainer>
+      <SurveyContainer>
+            <QuestionTitle>Question {questionNumber}</QuestionTitle>
+              {isDataLoading ? (
+                  <Loader />
+              ) : (
+                  <QuestionContent>{surveyData[questionNumber]}</QuestionContent>
+              )}
+          <LinkWrapper>
+              <Link to={`/survey/${prevQuestionNumber}`}>Précédent</Link>
+              {surveyData[questionNumberInt + 1] ? (
+                  <Link to={`/survey/${nextQuestionNumber}`}>Suivant</Link>
+              ) : (
+                  <Link to="/results">Résultats</Link>
+              )}
+          </LinkWrapper>
+      </SurveyContainer>
   )
 }
 
