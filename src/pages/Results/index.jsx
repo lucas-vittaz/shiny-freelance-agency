@@ -68,7 +68,7 @@ function Results() {
   const fetchParams = formatFetchParams(answers)
 
   const { data, isLoading, error } = useFetch(
-    `http://localhost:8000/results?${fetchParams}`
+    `https://freelance-agency-api.herokuapp.com/results?${fetchParams}`
   )
 
   if (error) {

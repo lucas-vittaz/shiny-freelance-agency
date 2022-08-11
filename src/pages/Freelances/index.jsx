@@ -37,7 +37,7 @@ const LoaderWrapper = styled.div`
 function Freelances() {
   const { theme } = useTheme()
   const { data, isLoading, error } = useFetch(
-    `http://localhost:8000/freelances`
+    `https://freelance-agency-api.herokuapp.com/freelances`
   )
 
   // Ici le "?" permet de s'assurer que data existe bien.
