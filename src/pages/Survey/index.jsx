@@ -1,121 +1,64 @@
-import { useContext } from 'react'
-import { useParams } from 'react-router-dom'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import colors from '../../utils/style/colors'
-import { Loader } from '../../utils/style/Atoms'
-import { SurveyContext } from '../../utils/context'
-import { useFetch, useTheme } from '../../utils/hooks'
+import { StyledLink } from '../../utils/style/Atoms'
+import { useTheme } from '../../utils/hooks'
+import HomeIllustration from '../../assets/home-illustration.svg'
 
-const SurveyContainer = styled.div`
+const HomeWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
-`
-
-const QuestionTitle = styled.h2`
-  text-decoration: underline;
-  text-decoration-color: ${colors.primary};
-  color: ${({ theme }) => (theme === 'light' ? '#000000' : '#ffffff')};
-`
-
-const QuestionContent = styled.span`
-  margin: 30px;
-  color: ${({ theme }) => (theme === 'light' ? '#000000' : '#ffffff')};
-`
-
-const LinkWrapper = styled.div`
-  padding-top: 30px;
-  & a {
-    color: ${({ theme }) => (theme === 'light' ? '#000000' : '#ffffff')};
-  }
-  & a:first-of-type {
-    margin-right: 20px;
-  }
-`
-
-const ReplyBox = styled.button`
-  border: none;
-  height: 100px;
-  width: 300px;
-  display: flex;
-  align-items: center;
   justify-content: center;
+`
+
+const HomerContainer = styled.div`
+  margin: 30px;
   background-color: ${({ theme }) =>
     theme === 'light' ? colors.backgroundLight : colors.backgroundDark};
-  color: ${({ theme }) => (theme === 'light' ? '#000000' : '#ffffff')};
-  border-radius: 30px;
-  cursor: pointer;
-  box-shadow: ${(props) =>
-    props.isSelected ? `0px 0px 0px 2px ${colors.primary} inset` : 'none'};
-  &:first-child {
-    margin-right: 15px;
-  }
-  &:last-of-type {
-    margin-left: 15px;
-  }
-`
-
-const ReplyWrapper = styled.div`
+  padding: 60px 90px;
   display: flex;
   flex-direction: row;
+  max-width: 1200px;
 `
 
-function Survey() {
-  const { questionNumber } = useParams()
-  const questionNumberInt = parseInt(questionNumber)
-  const prevQuestionNumber = questionNumberInt === 1 ? 1 : questionNumberInt - 1
-  const nextQuestionNumber = questionNumberInt + 1
+const LeftCol = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  ${StyledLink} {
+    max-width: 250px;
+  }
+`
+
+const StyledTitle = styled.h2`
+  padding-bottom: 30px;
+  max-width: 280px;
+  line-height: 50px;
+  color: ${({ theme }) => (theme === 'light' ? '#000000' : '#ffffff')};
+`
+
+const Illustration = styled.img`
+  flex: 1;
+`
+
+function Home() {
   const { theme } = useTheme()
 
-  const { saveAnswers, answers } = useContext(SurveyContext)
-
-  function saveReply(answer) {
-    saveAnswers({ [questionNumber]: answer })
-  }
-  const { data, isLoading, error } = useFetch(`https://freelance-agency-api.herokuapp.com/survey`)
-  const surveyData = data?.surveyData
-
-  if (error) {
-    return <span>Oups il y a eu un problème</span>
-  }
-
   return (
-    <SurveyContainer>
-      <QuestionTitle theme={theme}>Question {questionNumber}</QuestionTitle>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <QuestionContent theme={theme}>
-          {surveyData[questionNumber]}
-        </QuestionContent>
-      )}
-      <ReplyWrapper>
-        <ReplyBox
-          onClick={() => saveReply(true)}
-          isSelected={answers[questionNumber] === true}
-          theme={theme}
-        >
-          Oui
-        </ReplyBox>
-        <ReplyBox
-          onClick={() => saveReply(false)}
-          isSelected={answers[questionNumber] === false}
-          theme={theme}
-        >
-          Non
-        </ReplyBox>
-      </ReplyWrapper>
-      <LinkWrapper theme={theme}>
-        <Link to={`/survey/${prevQuestionNumber}`}>Précédent</Link>
-        {surveyData && surveyData[questionNumberInt + 1] ? (
-          <Link to={`/survey/${nextQuestionNumber}`}>Suivant</Link>
-        ) : (
-          <Link to="/results">Résultats</Link>
-        )}
-      </LinkWrapper>
-    </SurveyContainer>
+    <HomeWrapper>
+      <HomerContainer theme={theme}>
+        <LeftCol>
+          <StyledTitle theme={theme}>
+            Repérez vos besoins, on s’occupe du reste, avec les meilleurs
+            talents
+          </StyledTitle>
+          <StyledLink to="/survey/1" $isFullLink>
+            Faire le test
+          </StyledLink>
+        </LeftCol>
+        <Illustration src={HomeIllustration} />
+      </HomerContainer>
+    </HomeWrapper>
   )
 }
 
-export default Survey
+export default Home
