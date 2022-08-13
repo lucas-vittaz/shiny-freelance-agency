@@ -1,6 +1,6 @@
-import Footer from './'
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { ThemeProvider } from '../../utils/context'
+import Footer from './'
 
 describe('Footer', () => {
     test('Should render without crashing', async () => {
@@ -19,4 +19,6 @@ test('Change theme', async () => {
   )
   const nightModeButton = screen.getByRole('button')
   expect(nightModeButton.textContent).toBe('Changer de mode : ☀️')
+  fireEvent.click(nightModeButton)
+  expect(nightModeButton.textContent).toBe('Changer de mode : 🌙')
 })
